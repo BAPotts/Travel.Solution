@@ -18,7 +18,7 @@ namespace Travel.Controllers
     }
 
     //get api/reviews
-    public ActionResult<IEnumerable<Review>> Get(string destination, string country, int? rating)
+    public ActionResult<IEnumerable<Review>> Get([FromQuery] UrlQuery urlQuery, string destination, string country, int? rating)
     {
       var query = _db.Reviews.AsQueryable();
 
@@ -33,6 +33,14 @@ namespace Travel.Controllers
       if(rating != null)
       {
         query = query.Where(entry => entry.Rating == rating);
+      }
+
+      if(urlQuery.PageNumber.HasValue)
+      {
+        // query += @" Order BY Contact.ContackPK
+        //     OFFSET @PageSize *(@PageNumber -1) ROWS
+        //     FETCH NEXT @PageSize ROWS ONLY";
+
       }
       return query.ToList();
     }
@@ -51,6 +59,7 @@ namespace Travel.Controllers
     {
       return _db.Reviews.FirstOrDefault(entry => entry.ReviewId == id);
     }
+    
 
     //PUT api/reviews/5
     [HttpPut("{id}")]
