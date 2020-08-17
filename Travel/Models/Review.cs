@@ -12,6 +12,6 @@ namespace Travel.Models
     public string Country { get; set; }
     [Required]
     [Range(0, 5, ErrorMessage = "Rating must be between 0 and 5.")]
-    public int Rating { get; set; }
+    public int? Rating { get; set; }
   }
 }
