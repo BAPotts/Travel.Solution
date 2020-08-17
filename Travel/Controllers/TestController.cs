@@ -16,25 +16,20 @@ namespace Travel.Controllers
     {
       _db = db;
     }
-    [HttpGet]
-    public IActionResult GetPages([FromQuery] Test test )
-    {
-      var tests = __db.Reviews.AsQueryable();
-      Test test = new test();
 
-      if(urlQuery.PageNumber.HasValue)
-      {
-       .OrderBy(thing => thing.ReviewId)
-        //skipping first 2 pages(3-1). and pagesize(20*2) is the amt of results you skip.
-        .Skip((Test.PageNumber -1)* Test.PageSize)
-        .Take(test.PageSize)
-        .ToList();
+[HttpGet]
+public IActionResult GetPages([FromQuery] Test test )
+{
+  var tests = __db.Reviews.AsQueryable();
 
-      }
-      return tests.ToList();
-    }
+  return tests.ToList();
+}
+
+
+
+
     //get api/reviews
-    public ActionResult<IEnumerable<Review>> Get(urlQuery, string destination, string country, int? rating)
+    public ActionResult<IEnumerable<Review>> Get([FromQuery] UrlQuery urlQuery, string destination, string country, int? rating)
     {
       var query = _db.Reviews.AsQueryable();
 
@@ -53,11 +48,9 @@ namespace Travel.Controllers
 
       if(urlQuery.PageNumber.HasValue)
       {
-       .OrderBy(thing => thing.ReviewId)
-        //skipping first 2 pages(3-1). and pagesize(20*2) is the amt of results you skip.
-        .Skip((Tests.PageNumber -1)* Tests.PageSize)
-        .Take(tests.PageSize)
-        .ToList();
+        // query += @" Order BY Contact.ContackPK
+        //     OFFSET @PageSize *(@PageNumber -1) ROWS
+        //     FETCH NEXT @PageSize ROWS ONLY";
 
       }
       return query.ToList();

@@ -5,7 +5,7 @@ namespace Travel.Models
     private const int maxPageSize = 100;
     public int? PageNumber {get; set;}
 
-    private int _pageSize = 50;
+    private int _pageSize = 50;//number of records per page
     public int PageSize
     {
       get
