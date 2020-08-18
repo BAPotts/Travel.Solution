@@ -7,9 +7,9 @@ namespace Travel.Models
   public class UrlQuery
   {
     private const int maxPageSize = 50;
-    public int PageNumber {get; set;} = 1;
+    public int PageNumber {get; set;}=1;
 
-    private int _pageSize = 10;//number of records per page
+    private int _pageSize = 1;//number of records per page
     public int PageSize
     {
       get

@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Travel.Models;
 
 namespace travel.Migrations
 {
     [DbContext(typeof(TravelContext))]
-    partial class TravelContextModelSnapshot : ModelSnapshot
+    [Migration("20200818174707_seedData")]
+    partial class seedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -155,54 +157,6 @@ namespace travel.Migrations
                         new
                         {
                             ReviewId = 15,
-                            Country = "USA",
-                            Description = "lots of above ground cemetaries",
-                            Destination = "Yosemite",
-                            Rating = 1
-                        },
-                        new
-                        {
-                            ReviewId = 16,
-                            Country = "USA",
-                            Description = "lots of above ground cemetaries",
-                            Destination = "Yosemite",
-                            Rating = 1
-                        },
-                        new
-                        {
-                            ReviewId = 17,
-                            Country = "USA",
-                            Description = "lots of above ground cemetaries",
-                            Destination = "La Brea Tar Pits",
-                            Rating = 4
-                        },
-                        new
-                        {
-                            ReviewId = 18,
-                            Country = "USA",
-                            Description = "More above ground cemetaries than everywhere else",
-                            Destination = "New Orleans",
-                            Rating = 1
-                        },
-                        new
-                        {
-                            ReviewId = 19,
-                            Country = "Germany",
-                            Description = "lots of above ground cemetaries",
-                            Destination = "Baseball Town",
-                            Rating = 1
-                        },
-                        new
-                        {
-                            ReviewId = 20,
-                            Country = "Greece",
-                            Description = "lots of above ground cemetaries",
-                            Destination = "Mykonos",
-                            Rating = 1
-                        },
-                        new
-                        {
-                            ReviewId = 21,
                             Country = "USA",
                             Description = "lots of above ground cemetaries",
                             Destination = "Yosemite",
