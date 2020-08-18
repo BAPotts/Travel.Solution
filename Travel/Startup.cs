@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Travel
 {
-  public class Startup
+    public class Startup
     {
         public Startup(IConfiguration configuration)
         {
@@ -26,15 +26,25 @@ namespace Travel
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options => 
+            {
+                options.AddDefaultPolicy(
+                builder =>
+                {
+                    builder.WithOrigins("http://example.com", "https://localhost:5001");
+                });
+
+            });
+            
+
             services.AddDbContext<TravelContext>(opt =>
                 opt.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddCors();
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
 
+            // configure jwt authentication
             var appSettings = appSettingsSection.Get<AppSettings>();
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
             services.AddAuthentication(x =>
@@ -59,13 +69,19 @@ namespace Travel
             services.AddScoped<IUserService, UserService>();
         }
 
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            // app.UseCors(x => x
+            //     .AllowAnyOrigin()
+            //     .AllowAnyMethod()
+            //     .AllowAnyHeader());
+
+            // app.UseAuthentication();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+ 
             }
             else
             {
@@ -73,13 +89,15 @@ namespace Travel
                 app.UseHsts();
             }
 
-            app.UseCors(x => x
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
-
-            app.UseAuthentication();
-
+            app.UseCors();
+    
+                // app.UseEndpoints(endpoints =>
+                // {
+                //     endpoints.MapControllers().RequireCors();
+                // });
+                
+            // app.UseRouting();   
+            // app.UseAuthorization();
             // app.UseHttpsRedirection();
             app.UseMvc();
         }

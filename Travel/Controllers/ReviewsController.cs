@@ -19,7 +19,7 @@ namespace Travel.Controllers
       _db = db;
     }
 
-    [HttpGet]
+    [HttpGet("page")]
     public ActionResult GetPages([FromQuery] UrlQuery urlQuery)
     {
       var validUrlQuery = new UrlQuery(urlQuery.PageNumber, urlQuery.PageSize);
