@@ -20,36 +20,17 @@ namespace Travel.Controllers
     }
 
     [HttpGet]
-    public ActionResult GetPages([FromQuery] int PageNumber)
+    public ActionResult GetPages([FromQuery] UrlQuery urlQuery)
     {
-      UrlQuery newUrlQuery = new UrlQuery()
-      IEnumerable<Review> reviews = null;
-
-      reviews = _db.Reviews;
-      
-      reviews.OrderBy(thing => thing.ReviewId)
-      .Skip((urlQuery.PageNumber - 1) * urlQuery.PageSize)
-      .Take(urlQuery.PageSize);
-      
-      return Ok(reviews);
+      var validUrlQuery = new UrlQuery(urlQuery.PageNumber, urlQuery.PageSize);
+      var pagedData = _db.Reviews
+                .OrderBy(thing => thing.ReviewId)
+                .Skip((validUrlQuery.PageNumber - 1) * validUrlQuery.PageSize)
+                .Take(validUrlQuery.PageSize);
+      return Ok(pagedData);
     }
 
-
-
-//  [HttpGet]
-//     public ActionResult<IEnumerable<Review>> GetPages([FromQuery] UrlQuery urlQuery )
-//     {
-//       var query = _db.Reviews.AsQueryable();
-      
-//       // if(urlQuery.PageNumber.HasValue)
-//       // {
-//         var newQuery = query.OrderBy(thing => thing.ReviewId)
-//         .Skip((urlQuery.PageNumber - 1) * urlQuery.PageSize)
-//         .Take(urlQuery.PageSize);
-//       // }
-//       return newQuery.ToList();
-//     }
-
+    
     //get api/reviews
     public ActionResult<IEnumerable<Review>> Get(string destination, string country, int? rating)
     {
