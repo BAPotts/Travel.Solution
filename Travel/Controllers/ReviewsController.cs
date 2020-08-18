@@ -3,6 +3,8 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Travel.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
 
 namespace Travel.Controllers
 {
@@ -16,25 +18,23 @@ namespace Travel.Controllers
     {
       _db = db;
     }
+
     [HttpGet]
-    public IActionResult GetPages([FromQuery] Test test )
+    public ActionResult<IEnumerable<Review>> GetPages([FromQuery] UrlQuery urlQuery )
     {
-      var tests = __db.Reviews.AsQueryable();
-      Test test = new test();
-
-      if(urlQuery.PageNumber.HasValue)
-      {
-       .OrderBy(thing => thing.ReviewId)
-        //skipping first 2 pages(3-1). and pagesize(20*2) is the amt of results you skip.
-        .Skip((Test.PageNumber -1)* Test.PageSize)
-        .Take(test.PageSize)
-        .ToList();
-
-      }
-      return tests.ToList();
+      var query = _db.Reviews.AsQueryable();
+      
+      // if(urlQuery.PageNumber.HasValue)
+      // {
+        query.OrderBy(thing => thing.ReviewId)
+        .Skip((urlQuery.PageNumber - 1) * urlQuery.PageSize)
+        .Take(urlQuery.PageSize);
+      // }
+      return query.ToList();
     }
+
     //get api/reviews
-    public ActionResult<IEnumerable<Review>> Get(urlQuery, string destination, string country, int? rating)
+    public ActionResult<IEnumerable<Review>> Get(string destination, string country, int? rating)
     {
       var query = _db.Reviews.AsQueryable();
 
@@ -49,16 +49,6 @@ namespace Travel.Controllers
       if(rating != null)
       {
         query = query.Where(entry => entry.Rating == rating);
-      }
-
-      if(urlQuery.PageNumber.HasValue)
-      {
-       .OrderBy(thing => thing.ReviewId)
-        //skipping first 2 pages(3-1). and pagesize(20*2) is the amt of results you skip.
-        .Skip((Tests.PageNumber -1)* Tests.PageSize)
-        .Take(tests.PageSize)
-        .ToList();
-
       }
       return query.ToList();
     }
